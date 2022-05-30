@@ -22,7 +22,8 @@ library(jstable)
 
 ```
 
-##Table 1
+## Table 1 만들기
+아래처럼 데이터를 읽은 후, Q_로 시작하는 변수를 범주형으로 바꾼 후, 연도별 기술통계량을 Table로 나타내어라 (jstable::CreateTableOnesJS 이용)
 
 ```{r cars}
 
@@ -40,14 +41,12 @@ tb1 <- CreateTableOneJS(vars = vars.tb1, strata = "EXMD_BZ_YYYY", data = a)
 #knitr::kable(tb1$table, caption = tb1$caption)
 
 install.packages("DT", repos = "http://cran.us.r-project.org")
-DT::datatable(tb1$table)
-
-summary(cars)
+DT::datatable(tb1$table)  
 ```
 
-## regression
+## 회귀분석
 
-### linear regression
+### 선형회귀분석
 
 time ~ rx + age + sex 선형회귀 실행 후 table로 나타내어라
 
@@ -63,8 +62,8 @@ knitr::kable(tb.reg$table, caption = tb.reg$first.line)
 ```
 
 
-### logistic
-status ~ rx + age + sex 로지스틱회귀 실행 후 Table로 나타애어라
+### 로지스틱
+status ~ rx + age + sex 로지스틱회귀 실행 후 Table로 나타내어라
 
 ```{r}
 library(survival)
@@ -76,9 +75,10 @@ knitr::kable(tb.logistic$table, caption = tb.logistic$first.line)
 ```
 
 
-### survival
+### 생존분석
 
 #### Cox
+Surv(time, status) ~ rx + age + sex 실행 후 Table로 나타내어라(jstable::cox2.display 이용)
 
 ```{r}
 library(survival)
@@ -88,8 +88,11 @@ knitr::kable(tb.cox$table, caption = tb.cox$caption)
 ```
 
 
+
 #### Kaplan-meier
-Surv(time, status) ~ rx 실행 후 그림으로 나타내어라
+
+Surv(time, status) ~ rx 실행 후 그림으로 나타내어라 (jskm::jskm 이용)
+
 ```{r}
 install.packages("jskm", repos = "http://cran.us.r-project.org")
 library(jskm)
@@ -100,6 +103,3 @@ jskm::jskm(res.km, table = T, pval = T, label.nrisk = "No. at risk", size.label.
            xlabs = "Time(Day)", ylabs = "Survival", ystratalabs = c("Obs", "Lev", "Lev + 5FU"), ystrataname = "rx",
            marks = F, timeby = 365, xlims = c(0, 3000), ylims = c(0.25, 1), showpercent = T)
 ```
-
-
-
